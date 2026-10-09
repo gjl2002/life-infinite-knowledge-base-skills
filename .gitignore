@@ -1,0 +1,16 @@
+.DS_Store
+.env
+.env.*
+__pycache__/
+*.pyc
+*.zip
+.ai-life-system/
+.commercial-system/
+profile.json
+discovery.json
+notion-index.json
+notion-schema.json
+semantic-map.json
+dimension-pages.json
+routing-rules.json
+initialization-report.md

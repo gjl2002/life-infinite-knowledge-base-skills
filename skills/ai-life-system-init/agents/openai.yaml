@@ -1,0 +1,4 @@
+interface:
+  display_name: "商业系统连接助手"
+  short_description: "绑定自己的商业系统工作台并解析 Notion 结构"
+  default_prompt: "请使用 $ai-life-system-init 的商业系统单独模式，连接我的商业系统首页并建立本地结构索引。"

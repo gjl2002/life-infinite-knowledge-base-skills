@@ -1,0 +1,6 @@
+interface:
+  display_name: "一人公司选品助手"
+  short_description: "从个人经验和付费场景筛选适合一人交付的虚拟产品"
+  default_prompt: "Use $one-person-product-selection to identify a lightweight virtual product opportunity from my background, product idea, or case list."
+policy:
+  allow_implicit_invocation: true

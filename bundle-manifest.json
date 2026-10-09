@@ -1,0 +1,28 @@
+{
+  "bundle_name": "life-infinite-knowledge-base-virtual-products",
+  "version": "1.0.0",
+  "application_skills": [
+    "blogger-distiller",
+    "user-avatar-coach",
+    "comment-opportunity",
+    "commercial-positioning-coach",
+    "one-person-product-selection",
+    "product-opportunity-coach",
+    "product-architecture-coach",
+    "product-experience-coach",
+    "personal-guide-writer",
+    "product-detail-page-design",
+    "wechat-article-writing-coach",
+    "wechat-moments-writing-coach",
+    "xiaohongshu-native-note-coach",
+    "master-perspective"
+  ],
+  "shared_skills": [
+    "ai-life-system-init",
+    "humanizer-zh"
+  ],
+  "installable_directories": 16,
+  "notion_delivery": "commercial-system-workspace-only",
+  "notion_runtime_config_dir": "~/.commercial-system",
+  "notes": "No author Notion IDs, credentials or private source materials are included. Knowledge-base access is configured separately by each buyer."
+}

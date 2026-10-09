@@ -1,0 +1,6 @@
+interface:
+  display_name: "指南写作助手"
+  short_description: "整合个人经验与优质资料，写成系统指南"
+  default_prompt: "Use $personal-guide-writer to turn my experience and selected sources into a structured, in-depth guide."
+policy:
+  allow_implicit_invocation: true

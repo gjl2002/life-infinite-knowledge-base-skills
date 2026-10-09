@@ -1,0 +1,102 @@
+# AI 人生系统 Runtime 协议
+
+`scripts/runtime.py` 是具体业务 Skill 与学员本地 Notion 事实索引之间的稳定接口。它只读取指定的本地索引，不连接 Notion，也不执行创建、更新或删除。人生无限知识库买家的商业系统索引位于 `~/.commercial-system/`；完整人生系统原有索引仍位于 `~/.ai-life-system/`。
+
+## 配置目录
+
+脚本默认读取完整人生系统的 `~/.ai-life-system/`。本包买家的商业系统调用**必须**在子命令前传入 `--config-dir ~/.commercial-system`；特殊部署也可设置 `AI_LIFE_SYSTEM_DATA_DIR`：
+
+```bash
+python3 scripts/runtime.py --config-dir ~/.commercial-system status
+```
+
+不要把某位用户的配置目录、Notion ID 或索引文件放进共享 Skill。
+
+## status
+
+```bash
+python3 scripts/runtime.py --config-dir ~/.commercial-system status
+```
+
+- 退出码 `0`：配置可读取；继续检查返回的 `health.status`。
+- 退出码 `2`：配置缺失或损坏，返回 `runtime_status: needs_init`；运行 `$ai-life-system-init`。
+- `runtime_status: needs_attention` 不等于全部不可用，但业务 Skill 必须检查目标自身状态，写入前优先健康检查或重新绑定。
+
+## resolve
+
+一次只提交一种查询：
+
+```bash
+python3 scripts/runtime.py --config-dir ~/.commercial-system resolve --concept content
+python3 scripts/runtime.py --config-dir ~/.commercial-system resolve --concept commercial_positioning
+python3 scripts/runtime.py --config-dir ~/.commercial-system resolve --page 定位
+python3 scripts/runtime.py --config-dir ~/.commercial-system resolve --source 产品
+python3 scripts/runtime.py --config-dir ~/.commercial-system resolve --property 状态
+```
+
+返回统一字段：
+
+- `status: ready`：唯一真实目标，同时提供 `primary_target`；
+- `status: multiple`：多个真实目标，`primary_target` 为 `null`；
+- `status: not_found`：当前索引没有精确匹配，退出码为 `3`；
+- `targets`：供业务上下文按 Data Source、字段类型和动作对象继续过滤。
+
+名称查询使用 NFKC、转小写和移除常见分隔符后的精确匹配，不做模糊标题猜测。优先使用稳定 concept key；语义不存在时，再查询 page、source、property 或 option。
+
+page 目标来自初始化时有限发现并写入 `dimension-pages.json` 的普通页面。Runtime 返回页面身份，不返回页面正文；具体 Skill 必须再从 Notion 读取实时内容。
+
+## check-write
+
+```bash
+python3 scripts/runtime.py --config-dir ~/.commercial-system check-write \
+  --data-source-id <真实 Data Source ID> \
+  --operation create \
+  --field <真实 title 字段> \
+  --field <本次字段> \
+  --option '<字段>=<选项>'
+```
+
+`--field` 和 `--option` 可重复。创建页面必须显式声明真实 title 字段；更新页面使用 `--operation update`。
+
+本地预检会阻止：
+
+- 不存在或不可读取的 Data Source；
+- 不存在、只读或规范化后有歧义的字段；
+- 未解析 relation；
+- 不属于目标字段的 status、select 或 multi-select 选项；
+- 创建时未声明真实 title 字段。
+
+只有 `write_ready: true` 才能继续，但业务 Skill 仍须：
+
+1. 确认当前用户请求授权了这次写入；
+2. 调用 Notion 时重新读取目标的实时 Schema；
+3. 检查实时字段、选项和 relation 与返回的 `schema_fingerprint` 所代表索引一致；
+4. 只提交用户授权范围内的数据。
+
+Runtime 预检永远不授予写权限。
+
+## check-page-write
+
+```bash
+python3 scripts/runtime.py --config-dir ~/.commercial-system check-page-write --page-id <resolve 返回的真实 page ID>
+```
+
+普通页面预检会阻止不存在或不可读的页面，并返回索引中的标题、父页面和最后编辑时间。只有 `page_write_ready: true` 才能继续，但具体 Skill 仍须：
+
+1. 确认用户明确授权本次正文更新；
+2. 从 Notion 实时重新读取页面并核对 page ID；
+3. 只更新业务 Skill 声明的章节或区块，不覆盖无关内容；
+4. 写入后回读核对。
+
+## 具体 Skill 接入片段
+
+具体 Skill 可以加入以下依赖约定，并按自己的业务补充 concept key：
+
+```text
+本 Skill 使用 $ai-life-system-init 的商业系统单独模式作为 Notion 运行时底座。
+执行前先调用其 scripts/runtime.py --config-dir ~/.commercial-system status；再用同一个目录 resolve 定位真实目标。
+数据库写入前把目标 Data Source、本次字段和选项传给 check-write；普通页面正文更新前调用 check-page-write。
+multiple 不静默取第一个，needs_init 时引导用户运行 $ai-life-system-init。
+```
+
+接入后，学员只初始化一次。模板 Schema 更新时重新运行初始化，具体 Skill 不保存第二份配置。

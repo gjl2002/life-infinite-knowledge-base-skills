@@ -1,0 +1,6 @@
+interface:
+  display_name: "评论区商机挖掘"
+  short_description: "从评论需求挖掘商机、产品主题与获客选题"
+  default_prompt: "Use $comment-opportunity to analyze this Xiaohongshu comment dataset and identify evidence-backed opportunities, product themes, and content ideas."
+policy:
+  allow_implicit_invocation: true

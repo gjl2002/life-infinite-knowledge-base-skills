@@ -1,0 +1,141 @@
+{
+  "schema_version": "0.4",
+  "system_name": "商业系统工作台",
+  "mapping_version": "1.0",
+  "policy": "discovery_first_only_present",
+  "concepts": [
+    {
+      "key": "commercial_positioning",
+      "label": "商业定位",
+      "kind": "page",
+      "aliases": [
+        "定位",
+        "商业定位"
+      ]
+    },
+    {
+      "key": "content",
+      "label": "内容",
+      "kind": "source",
+      "aliases": [
+        "内容"
+      ]
+    },
+    {
+      "key": "series",
+      "label": "专题",
+      "kind": "source",
+      "aliases": [
+        "专题"
+      ]
+    },
+    {
+      "key": "account",
+      "label": "账号",
+      "kind": "source",
+      "aliases": [
+        "账号"
+      ]
+    },
+    {
+      "key": "benchmark_account",
+      "label": "对标账号",
+      "kind": "source",
+      "aliases": [
+        "对标账号"
+      ]
+    },
+    {
+      "key": "benchmark_content",
+      "label": "对标内容",
+      "kind": "source",
+      "aliases": [
+        "对标内容"
+      ]
+    },
+    {
+      "key": "benchmark_cover",
+      "label": "参考封面",
+      "kind": "source",
+      "aliases": [
+        "参考封面"
+      ]
+    },
+    {
+      "key": "benchmark_product",
+      "label": "对标产品",
+      "kind": "source",
+      "aliases": [
+        "对标产品"
+      ]
+    },
+    {
+      "key": "product",
+      "label": "产品",
+      "kind": "source",
+      "aliases": [
+        "产品"
+      ]
+    },
+    {
+      "key": "brand_deal",
+      "label": "合作商单",
+      "kind": "source",
+      "aliases": [
+        "合作商单"
+      ]
+    },
+    {
+      "key": "client_management",
+      "label": "客户管理",
+      "kind": "source",
+      "aliases": [
+        "客户管理"
+      ]
+    },
+    {
+      "key": "client_communication",
+      "label": "客户沟通",
+      "kind": "source",
+      "aliases": [
+        "客户沟通"
+      ]
+    },
+    {
+      "key": "user_profile",
+      "label": "用户画像",
+      "kind": "source",
+      "aliases": [
+        "用户画像"
+      ]
+    },
+    {
+      "key": "user_feedback",
+      "label": "用户反馈",
+      "kind": "source",
+      "aliases": [
+        "用户反馈"
+      ]
+    },
+    {
+      "key": "ai_flavor_library",
+      "label": "去AI味库",
+      "kind": "source",
+      "aliases": [
+        "去AI味库",
+        "去 AI 味库",
+        "AI味错句表达",
+        "AI 味错句表达"
+      ]
+    },
+    {
+      "key": "style_corpus",
+      "label": "文风语料库",
+      "kind": "source",
+      "aliases": [
+        "文风语料库",
+        "文风语料"
+      ]
+    }
+  ]
+}
